@@ -2,6 +2,7 @@ package main
 
 import (
 	"html/template"
+	"net/http"
 
 	"gitlab.mentornow.com/leroad-service/core/common/handler"
 
@@ -22,6 +23,7 @@ func main() {
 
 	templ := template.Must(template.New("projectViews").Funcs(funcs).ParseGlob("templates/*.tmpl"))
 
+	m.StaticFS("/static", http.Dir("./static"))
 	m.SetHTMLTemplate(templ)
 
 	m.GET("/", webpage.HomePage)

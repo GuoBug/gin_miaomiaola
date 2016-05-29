@@ -1,13 +1,53 @@
 package util
 
 import (
+	"log"
 	"os"
 	"time"
+
+	"gopkg.in/mgo.v2"
+
+	"mentornow.com/leroad/general-api/conf"
+	"mentornow.com/leroad/general-api/util"
 
 	"github.com/gin-gonic/gin"
 	"github.com/inconshreveable/log15"
 )
 
+//DB 创建mongo session
+func DB() gin.HandlerFunc {
+	session, err := util.CreateDBSession()
+	if err != nil {
+		log.Panic("创建session失败", err)
+	}
+	return func(c *gin.Context) {
+		s := session.Clone()
+		c.Set("db", s.DB("miao_blog"))
+		defer s.Close()
+		c.Next()
+	}
+}
+
+//CreateDBSession 创建db session
+func CreateDBSession() (*mgo.Session, error) {
+	log := log15.New()
+
+	session, err := mgo.Dial(conf.Cfg.MongoURL)
+	if err != nil {
+		log.Error("创建session失败", err)
+		return nil, err
+	}
+	admindb := session.DB(conf.Cfg.MongoAuthDB)
+	err = admindb.Login(conf.Cfg.MongoUser, conf.Cfg.MongoPsw)
+	if err != nil {
+		log.Error("登陆数据库失败", err)
+		return nil, err
+	}
+	session.SetMode(mgo.Monotonic, true)
+	return session, err
+}
+
+//BuildLocalTimeStr time
 func BuildLocalTimeStr(utcTime time.Time) (string, error) {
 	loc, err := time.LoadLocation("Asia/Shanghai")
 	if err != nil {
@@ -16,6 +56,7 @@ func BuildLocalTimeStr(utcTime time.Time) (string, error) {
 	return utcTime.In(loc).Format("15:04"), nil
 }
 
+//BuildLocalDateStr date
 func BuildLocalDateStr(utcTime time.Time) (string, error) {
 	loc, err := time.LoadLocation("Asia/Shanghai")
 	if err != nil {
