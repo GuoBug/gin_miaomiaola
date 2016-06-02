@@ -6,6 +6,7 @@ import "time"
 type Post struct {
 	ID       string    `bson:"_id"`
 	Title    string    `bson:"title"`
+	URL      string    `bson:"url"`
 	PostDate time.Time `bson:"postDate"`
 	Desc     string    `bson:"desc"`
 }
