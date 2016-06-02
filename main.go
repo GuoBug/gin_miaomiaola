@@ -13,7 +13,7 @@ import (
 func main() {
 	m := gin.Default()
 	m.Use(util.Log()) //log15日志
-	//m.Use(util.DB())
+	m.Use(util.DB())
 
 	funcs := template.FuncMap{
 		"timeFmtDate": util.BuildLocalDateStr,
