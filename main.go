@@ -26,5 +26,7 @@ func main() {
 	m.SetHTMLTemplate(templ)
 
 	m.GET("/", webpage.HomePage)
+	m.GET("/:urlString", webpage.PostPage)
+
 	m.Run(":3000")
 }
