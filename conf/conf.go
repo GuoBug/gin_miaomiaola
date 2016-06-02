@@ -39,7 +39,7 @@ func LoadConf() error {
 	var confFilePath string
 
 	//配置文件路径
-	confFilePath = "/Users/guoqiang/gopath/src/gin_miaomiaola/blog.conf"
+	confFilePath = "~/gopath/src/gin_miaomiaola/blog.conf"
 
 	log.Debug("load conf", "filepath", confFilePath)
 	err := loadDataFromFile(confFilePath, &Cfg)
