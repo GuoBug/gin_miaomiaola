@@ -4,8 +4,6 @@ import (
 	"html/template"
 	"net/http"
 
-	"gitlab.mentornow.com/leroad-service/core/common/handler"
-
 	"gin_miaomiaola/util"
 	"gin_miaomiaola/webpage"
 
@@ -14,7 +12,8 @@ import (
 
 func main() {
 	m := gin.Default()
-	m.Use(handler.Log()) //log15日志
+	m.Use(util.Log()) //log15日志
+	m.Use(util.DB())
 
 	funcs := template.FuncMap{
 		"timeFmtDate": util.BuildLocalDateStr,

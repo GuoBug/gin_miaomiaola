@@ -7,8 +7,7 @@ import (
 
 	"gopkg.in/mgo.v2"
 
-	"mentornow.com/leroad/general-api/conf"
-	"mentornow.com/leroad/general-api/util"
+	"gin_miaomiaola/conf"
 
 	"github.com/gin-gonic/gin"
 	"github.com/inconshreveable/log15"
@@ -16,19 +15,19 @@ import (
 
 //DB 创建mongo session
 func DB() gin.HandlerFunc {
-	session, err := util.CreateDBSession()
+	session, err := CreateDBSession()
 	if err != nil {
 		log.Panic("创建session失败", err)
 	}
 	return func(c *gin.Context) {
 		s := session.Clone()
-		c.Set("db", s.DB("miao_blog"))
+		c.Set("db", s.DB(conf.Cfg.MongoDB))
 		defer s.Close()
 		c.Next()
 	}
 }
 
-//CreateDBSession 创建db session
+//CreateDBSession 创建mongo session
 func CreateDBSession() (*mgo.Session, error) {
 	log := log15.New()
 
