@@ -28,5 +28,5 @@ func main() {
 	m.GET("/", webpage.HomePage)
 	m.GET("/post/:urlString", webpage.PostPage)
 
-	m.Run(":3000")
+	m.Run(":4000")
 }
