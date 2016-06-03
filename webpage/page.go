@@ -42,5 +42,5 @@ func PostPage(c *gin.Context) {
 		log.Error("获取文章出错", err)
 		c.HTML(404, "home.tmpl", p)
 	}
-	c.HTML(200, "home.tmpl", p)
+	c.HTML(200, "postDetail.tmpl", p)
 }
