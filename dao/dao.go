@@ -19,10 +19,10 @@ func GetAllTopic(db *mgo.Database, log log15.Logger) (*[]Post, error) {
 }
 
 //GetTopic 获取全部话题
-func GetTopic(db *mgo.Database, log log15.Logger) (*Post, error) {
+func GetTopic(id string, db *mgo.Database, log log15.Logger) (*Post, error) {
 	p := new(Post)
 	cl := db.C(CollectionName)
-	q := cl.Find(bson.M{})
+	q := cl.Find(bson.M{"_id": id})
 	err := q.One(p)
 	if err != nil {
 		log.Error("添加用户失败")

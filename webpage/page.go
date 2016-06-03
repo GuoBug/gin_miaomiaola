@@ -37,7 +37,7 @@ func PostPage(c *gin.Context) {
 		return
 	}
 
-	p, err := dao.GetTopic(db, log)
+	p, err := dao.GetTopic(url, db, log)
 	if err != nil {
 		log.Error("获取文章出错", err)
 		c.HTML(404, "home.tmpl", p)
