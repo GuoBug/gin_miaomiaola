@@ -3,6 +3,7 @@ package webpage
 import (
 	"gin_miaomiaola/dao"
 	"gin_miaomiaola/mkd"
+	"html/template"
 
 	"github.com/gin-gonic/gin"
 	"github.com/inconshreveable/log15"
@@ -43,7 +44,9 @@ func PostPage(c *gin.Context) {
 		log.Error("获取文章出错", err)
 		c.HTML(404, "home.tmpl", p)
 	}
-	p.Desc = mkd.MarkdownToHTML(p.Desc, log)
-	log.Debug("Markdown 后的数据", "DESC", p.Desc)
-	c.HTML(200, "postDetail.tmpl", p)
+	rtn := new(Post)
+	rtn.HTML = template.HTML(mkd.MarkdownToHTML(p.Desc, log))
+	rtn.Post = *p
+	log.Debug("Markdown 后的数据", "DESC", rtn.HTML)
+	c.HTML(200, "postDetail.tmpl", rtn)
 }
