@@ -44,5 +44,6 @@ func PostPage(c *gin.Context) {
 		c.HTML(404, "home.tmpl", p)
 	}
 	p.Desc = mkd.MarkdownToHTML(p.Desc, log)
+	log.Debug("Markdown 后的数据", "DESC", p.Desc)
 	c.HTML(200, "postDetail.tmpl", p)
 }
