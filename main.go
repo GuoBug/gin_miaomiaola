@@ -27,6 +27,7 @@ func main() {
 
 	m.GET("/", webpage.HomePage)
 	m.GET("/post/:urlString", webpage.PostPage)
+	m.GET("/about/", webpage.AboutMe)
 
 	m.Run(":4000")
 }
