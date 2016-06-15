@@ -23,10 +23,10 @@ func (p *Post) Add(db *mgo.Database, log log15.Logger) error {
 func GetAllTopic(db *mgo.Database, log log15.Logger) (*[]Post, error) {
 	p := new([]Post)
 	cl := db.C(CollectionName)
-	q := cl.Find(bson.M{}).Sort("-createTime")
+	q := cl.Find(bson.M{"_id": bson.M{"$ne": "555ad4e8e64786646a000018"}}).Sort("-createTime")
 	err := q.All(p)
 	if err != nil {
-		log.Error("添加用户失败")
+		log.Error("获取全部失败")
 	}
 	return p, err
 }
@@ -38,7 +38,7 @@ func GetTopic(url string, db *mgo.Database, log log15.Logger) (*Post, error) {
 	q := cl.Find(bson.M{"url": url})
 	err := q.One(p)
 	if err != nil {
-		log.Error("添加用户失败")
+		log.Error("获取单个失败")
 	}
 	return p, err
 }
