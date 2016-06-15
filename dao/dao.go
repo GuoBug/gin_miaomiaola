@@ -1,6 +1,8 @@
 package dao
 
 import (
+	"time"
+
 	"github.com/inconshreveable/log15"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -9,6 +11,7 @@ import (
 //Add 添加话题
 func (p *Post) Add(db *mgo.Database, log log15.Logger) error {
 	c := db.C(CollectionName)
+	p.PostDate = time.Now()
 	err := c.Insert(p)
 	if err != nil {
 		log.Error("新增出错", "Params", p, "error", err)
