@@ -57,15 +57,8 @@ func AboutMe(c *gin.Context) {
 	log.Info("展现内容处理开始")
 
 	db := c.MustGet("db").(*mgo.Database)
-	url := c.Param("urlString")
 
-	if url == "" {
-		log.Error("参数为空")
-		c.HTML(404, "404.tmpl", struct{}{})
-		return
-	}
-
-	p, err := dao.GetTopic(url, db, log)
+	p, err := dao.GetTopic("about", db, log)
 	if err != nil {
 		log.Error("获取文章出错", err)
 		c.HTML(404, "home.tmpl", p)
